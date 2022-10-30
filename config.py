@@ -2,7 +2,7 @@
 # Never commit secrets in this file
 
 # Status leds
-NETWORK_STATUS_PIN = 25
+NETWORK_STATUS_PIN = 4
 MQTT_STATUS_PIN = 5
 
 # WIFI details for Pico W boards
