@@ -3,12 +3,12 @@ from machine import Timer
 
 from paniq_prop.status_leds import StatusLed
 
-class Wifi():
+class WifiNetworkAdapter():
     def __init__(
         self,
+        statusLed: StatusLed,
         ssid: str,
         password: str,
-        statusLed: StatusLed,
         connection_check_period: int = 5000,
     ):
         self.ssid = ssid
@@ -18,10 +18,8 @@ class Wifi():
 
         self.wlan = network.WLAN(network.STA_IF)
         self.wlan.active(True)
-
         
         self.init_auto_reconnect_timer()
-        self.connect()
 
 
     def init_auto_reconnect_timer(self):
