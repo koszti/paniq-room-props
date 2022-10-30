@@ -47,18 +47,18 @@ class StatusLeds():
 
     def __init__(
         self,
-        wifi_status_pin: int = 0,
+        network_status_pin: int = 0,
         mqtt_status_pin: int = 1,
     ):
-        self.wifi = StatusLed(Pin(wifi_status_pin, Pin.OUT))
+        self.network = StatusLed(Pin(network_status_pin, Pin.OUT))
         self.mqtt = StatusLed(Pin(mqtt_status_pin, Pin.OUT))
         self.reset()
 
     def reset(self):
-        self.wifi.on()
+        self.network.on()
         self.mqtt.on()
 
         time.sleep(1)
 
-        self.wifi.off()
+        self.network.off()
         self.mqtt.off()

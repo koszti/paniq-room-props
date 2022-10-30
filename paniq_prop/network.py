@@ -1,0 +1,86 @@
+import network
+
+from paniq_prop.status_leds import StatusLed
+from paniq_prop.network_adapters.ethernet import EthernetNetworkAdapter
+from paniq_prop.network_adapters.wifi import WifiNetworkAdapter
+
+
+class Network():
+    def __init__(
+        self,
+        statusLed: StatusLed,
+
+        wifi_ssid: str,
+        wifi_password: str,
+        wifi_connection_check_period: int,
+
+        eth_ip: str,
+        eth_subnet: str,
+        eth_gateway: str,
+        eth_dns: str,
+    ):
+        self.statusLed = statusLed
+
+        self.wifi_ssid = wifi_ssid
+        self.wifi_password = wifi_password
+        self.wifi_connection_check_period = wifi_connection_check_period
+
+        self.eth_ip = eth_ip
+        self.eth_subnet = eth_subnet
+        self.eth_gateway = eth_gateway
+        self.eth_dns = eth_dns
+
+        self.network_adapter_class = None
+        self.network_adapter = None
+
+        self.detect_network_adapter_class()
+        self.init_network_adapter()
+        self.connect()
+    
+    def detect_network_adapter_class(self):
+        try:
+            if network.WIZNET5K:
+                self.network_adapter_class = EthernetNetworkAdapter
+        except AttributeError:
+            try:
+                if network.WLAN:
+                    self.network_adapter_class = WifiNetworkAdapter
+            except AttributeError:
+                print("Not found a supported network device.")
+        
+    def init_network_adapter(self):
+        if self.network_adapter_class == WifiNetworkAdapter:
+            self.network_adapter = WifiNetworkAdapter(
+                statusLed=self.statusLed,
+                ssid=self.wifi_ssid,
+                password=self.wifi_password,
+                connection_check_period=self.wifi_connection_check_period,
+            )
+        elif self.network_adapter_class == EthernetNetworkAdapter:
+            self.network_adapter = EthernetNetworkAdapter(
+                statusLed=self.statusLed,
+                ip=self.eth_ip,
+                subnet=self.eth_subnet,
+                gateway=self.eth_gateway,
+                dns=self.eth_dns,
+            )
+        else:
+            print("Cannot initialise network without a supported network adapter.")
+
+    def connect(self):
+        if self.network_adapter_class:
+            print(f"Connecting network using {self.network_adapter_class.__name__} adapter...")        
+            if self.network_adapter:
+                self.network_adapter.connect()
+            else:
+                print("Network adapter class not initialised")
+        else:
+            print("Network adapter class not defined")
+    
+    def disconnect(self):
+        if self.network_adapter:
+            self.network_adapter.disconnect()
+
+    def isconnected(self):
+        if self.network_adapter:
+            self.network_adapter.isconnected()
