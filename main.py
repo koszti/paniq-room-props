@@ -51,12 +51,14 @@ while True:
     print("..")
 
     # Get messages from mqtt topics
-    mqtt.check_msg()
+    if mqtt.isconnected():
+        mqtt.check_msg()
 
     # Send test messages periodically to mqtt topic
     cnt += 1
     if cnt == 10:
-        mqtt.publish(f"Counter {cnt}")
+        if mqtt.isconnected():
+            mqtt.publish(f"Counter {cnt}")
         cnt = 0
 
     # Wait
