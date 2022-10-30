@@ -1,23 +1,35 @@
 import config
-import sys
 import time
 
 from paniq_prop.mqtt import Mqtt
 from paniq_prop.status_leds import StatusLeds
-from paniq_prop.wifi import Wifi
+from paniq_prop.network import Network
 
 # Init components
-statusLeds = StatusLeds(wifi_status_pin=config.WIFI_STATUS_PIN, mqtt_status_pin=config.MQTT_STATUS_PIN)
-wifi = Wifi(
-    config.WIFI_SSID,
-    config.WIFI_PASSWORD,
-    statusLeds.wifi,
-    config.WIFI_CONNECTION_CHECK_PERIOD,
+statusLeds = StatusLeds(
+    network_status_pin=config.NETWORK_STATUS_PIN,
+    mqtt_status_pin=config.MQTT_STATUS_PIN
 )
 
-# Custom function to override default mqtt on_message function
-# def on_mqtt_message(b_topic: str, b_msg: str):
-#     print(f"Custom message receiver: {b_topic} - {b_msg}")
+# Network init detects WIFI and ETH adapters automatically
+Network(
+    statusLed=statusLeds.network,
+
+    # For WIFI adapter
+    wifi_ssid=config.WIFI_SSID,
+    wifi_password=config.WIFI_PASSWORD,
+    wifi_connection_check_period=config.WIFI_CONNECTION_CHECK_PERIOD,
+
+    # For Ethernet adapter
+    eth_ip=config.ETH_IP,
+    eth_subnet=config.ETH_SUBNET,
+    eth_gateway=config.ETH_GATEWAY,
+    eth_dns=config.ETH_DNS,
+)
+
+# # Custom function to override default mqtt on_message function
+# # def on_mqtt_message(b_topic: str, b_msg: str):
+# #     print(f"Custom message receiver: {b_topic} - {b_msg}")
 
 mqtt = Mqtt(
     config.MQTT_CLIENT_ID,
