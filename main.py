@@ -27,9 +27,9 @@ Network(
     eth_dns=config.ETH_DNS,
 )
 
-# # Custom function to override default mqtt on_message function
-# # def on_mqtt_message(b_topic: str, b_msg: str):
-# #     print(f"Custom message receiver: {b_topic} - {b_msg}")
+# Custom function to override default mqtt on_message function
+# def on_mqtt_message(b_topic: str, b_msg: str, retained: bool, dup: bool):
+#     print(f"Custom message receiver: {b_topic} - {b_msg}")
 
 mqtt = Mqtt(
     config.MQTT_CLIENT_ID,
