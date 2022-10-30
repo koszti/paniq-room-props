@@ -98,7 +98,8 @@ class Mqtt():
         return self.status == self.STAT_CONNECTED
     
     def check_msg(self):
-        return self._client.check_msg()
+        if self.isconnected():
+            self._client.check_msg()
 
     def _default_on_message(self, b_topic: str, b_msg: str, retained: bool, dup: bool):
         topic = b_topic.decode('utf-8')
@@ -106,4 +107,5 @@ class Mqtt():
         print(f"Message received from {topic} (retained: {retained}) (dup: {dup}): {msg}")
 
     def publish(self, msg: str):
-        self._client.publish(self.topic_to_publish, msg)
+        if self.isconnected():
+            self._client.publish(self.topic_to_publish, msg)
