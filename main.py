@@ -48,15 +48,13 @@ mqtt = Mqtt(
 # Main loop
 cnt = 0
 while True:
-    print("..")
-
     # Get messages from mqtt topics
     mqtt.check_msg()
 
     # Send test messages periodically to mqtt topic
     cnt += 1
-    if cnt == 10:
-        mqtt.publish(f"Counter {cnt}")
+    if cnt == 4:
+        mqtt.publish(f"DATA client_id={config.MQTT_CLIENT_ID} time={time.time()}")
         cnt = 0
 
     # Wait

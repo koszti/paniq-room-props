@@ -69,8 +69,8 @@ class Mqtt():
                     print(f"Subscribing to topic: {topic}")
                     self._client.subscribe(topic)
 
-                self.publish(f"CONNECTED [{self.client_id}]")
                 self.status = self.STAT_CONNECTED
+                self.publish(f"CONNECTED client_id={self.client_id}")
 
                 print("Mqtt connection established")
                 if self.statusLed:
