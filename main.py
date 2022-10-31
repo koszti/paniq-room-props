@@ -25,6 +25,7 @@ Network(
     eth_subnet=config.ETH_SUBNET,
     eth_gateway=config.ETH_GATEWAY,
     eth_dns=config.ETH_DNS,
+    eth_connection_check_period=config.ETH_CONNECTION_CHECK_PERIOD,
 )
 
 # Custom function to override default mqtt on_message function

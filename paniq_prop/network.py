@@ -21,6 +21,7 @@ class Network():
         eth_subnet: str,
         eth_gateway: str,
         eth_dns: str,
+        eth_connection_check_period: int,
     ):
         self.statusLed = statusLed
 
@@ -32,6 +33,7 @@ class Network():
         self.eth_subnet = eth_subnet
         self.eth_gateway = eth_gateway
         self.eth_dns = eth_dns
+        self.eth_connection_check_period = eth_connection_check_period
 
         self.network_adapter_class = None
         self.network_adapter = None
@@ -66,6 +68,7 @@ class Network():
                 subnet=self.eth_subnet,
                 gateway=self.eth_gateway,
                 dns=self.eth_dns,
+                connection_check_period=self.eth_connection_check_period,
             )
         else:
             logger.critical("Cannot initialise network without a supported network adapter.")
