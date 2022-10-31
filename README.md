@@ -24,6 +24,9 @@ Download the correct UF2 file from the list above and install it onto the board:
 Open the `config.py` file in this repo and change at least the following properties to fit to your environment:
 
 ```
+# MQTT topic names will be derived from the prop name. Make it unique acress all props
+PROP_NAME = "Prop1"
+
 # WIFI details for Raspberry PI Pico W
 WIFI_SSID = "your-ssid"
 WIFI_PASSWORD = "your-secret"
@@ -37,19 +40,32 @@ MQTT_SERVER_HOST="192.168.1.66"
 # Make the MQTT client ID unique across all the props
 MQTT_CLIENT_ID="Wiznet W5100S-EVB-Pico ETH 1"
 
+# Topic patters need be in sync with your room server settings
+MQTT_TOPIC_PREFIX = "Room/TestRoom"
+
 # Topics to receive messages from
 MQTT_TOPICS_TO_SUBSCRIBE = [
-    "Room/TestRoom/Control/game:players",
-    "Room/TestRoom/Control/game:scenario",
-    "Room/TestRoom/Control/game:countdown:seconds",
-    "Room/TestRoom/Props/RandomNumber/inbox",
+    # Subscribe to topics with room server control messages
+    f"{MQTT_TOPIC_PREFIX}/Control/game:players",
+    f"{MQTT_TOPIC_PREFIX}/Control/game:scenario",
+
+    # Subscribe to the prop's own inbox topic
+    MQTT_TOPIC_PROP_INBOX,
 ]
 
-# Topics to send messages to. Make it unique across all the props
-MQTT_TOPIC_TO_PUBLISH = "Room/TestRoom/Props/Prop1/outbox"
+
+# Modify this function to do something specific on incoming MQTT messages
+def on_mqtt_message(topic: str, msg: str):
+    ...
+
+# Modify this function to do something specific in the main loop
+# Typically checking sensors, setting pin values and sending MQTT messages
+from paniq_prop.mqtt import Mqtt
+def check_sensors(prop_runtime_secs: int, mqtt: Mqtt):
+    ...
 ```
 
-If required set any other detail in the `config.py`.
+If required set other details in the `config.py`.
 
 ### 3. Transfer the project files to your board
 

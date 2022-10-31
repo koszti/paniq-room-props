@@ -28,10 +28,6 @@ Network(
     eth_connection_check_period=config.ETH_CONNECTION_CHECK_PERIOD,
 )
 
-# Custom function to override default mqtt on_message function
-def on_mqtt_message(topic: str, msg: str):
-    print(f"Custom Message received from {topic}: {msg}")
-
 mqtt = Mqtt(
     statusLed=statusLeds.mqtt,
 
@@ -45,21 +41,33 @@ mqtt = Mqtt(
     connection_check_period=config.MQTT_CONNECTION_CHECK_PERIOD,
 
     inbox_topic=config.MQTT_TOPIC_PROP_INBOX,
-    # Set on_message if custom message receiver needed
-    on_message=on_mqtt_message,
+    on_message=config.on_mqtt_message,
 )
 
-# Main loop
-cnt = 0
-while True:
-    # Get messages from mqtt topics
-    mqtt.check_msg()
+def main_loop():
+    """Main loop is doing two things
+    1. Checking onboard sensors and sending MQTT messages (config.on_mqtt_message)
+    2. Listening to income MQTT messages and processing them (config.check_sensors)
 
-    # Send test messages periodically to mqtt topic
-    cnt += 1
-    if cnt == 4:
-        mqtt.publish(f"DATA client_id={config.MQTT_CLIENT_ID} time={time.time()}")
-        cnt = 0
+    Both configured in config.py and define uniqe behaviour for the prop
+    """
+    main_loop_period_counter = 0
+    MAIN_PERIOD_SLEEP_SECONDS = 0.5
 
-    # Wait
-    time.sleep(1)
+    while True:
+        # Calculate how long the prop is running
+        prop_runtime_secs = main_loop_period_counter * MAIN_PERIOD_SLEEP_SECONDS
+
+        # Check sensor statuses, send custom MQTT messages depending on states
+        config.check_sensors(prop_runtime_secs, mqtt)
+
+        # Check and process incoming MQTT messages
+        mqtt.check_msg()
+
+        # Wait
+        time.sleep(MAIN_PERIOD_SLEEP_SECONDS)
+        main_loop_period_counter += 1
+
+
+if __name__ == "__main__":
+    main_loop()
