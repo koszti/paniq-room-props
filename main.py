@@ -32,14 +32,16 @@ Network(
 #     print(f"Custom message receiver: {b_topic} - {b_msg}")
 
 mqtt = Mqtt(
-    config.MQTT_CLIENT_ID,
-    config.MQTT_SERVER_HOST,
-    config.MQTT_SERVER_PORT,
-    config.MQTT_TOPICS_TO_SUBSCRIBE,
-    config.MQTT_TOPIC_TO_PUBLISH,
-    statusLeds.mqtt,
-    config.MQTT_SERVER_KEEPALIVE,
-    config.MQTT_CONNECTION_CHECK_PERIOD,
+    statusLed=statusLeds.mqtt,
+
+    # MQTT broker details
+    client_id=config.MQTT_CLIENT_ID,
+    server=config.MQTT_SERVER_HOST,
+    port=config.MQTT_SERVER_PORT,
+    topics=config.MQTT_TOPICS_TO_SUBSCRIBE,
+    topic_to_publish=config.MQTT_TOPIC_TO_PUBLISH,
+    keepalive=config.MQTT_SERVER_KEEPALIVE,
+    connection_check_period=config.MQTT_CONNECTION_CHECK_PERIOD,
 
     # Set on_message if custom message receiver needed
     # on_message=on_mqtt_message,

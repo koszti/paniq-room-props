@@ -10,23 +10,25 @@ class Mqtt():
 
     def __init__(
         self, 
+        statusLed: StatusLed,
+
         client_id: str,
         server: str,
         port: int,
         topics,
         topic_to_publish: str,
-        statusLed: StatusLed,
         keepalive: int = 60,
         connection_check_period: int = 5000,
         on_message = None,
     ):
+        self.statusLed = statusLed
+
         self.client_id = client_id
         self.server = server
         self.port = port
         self.topics = topics
         self.topic_to_publish = topic_to_publish
         self.keepalive = keepalive
-        self.statusLed = statusLed
         self.connection_check_period = connection_check_period
 
         self.status = self.STAT_NOT_CONNECTED
