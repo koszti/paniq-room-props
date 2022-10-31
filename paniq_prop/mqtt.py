@@ -19,6 +19,7 @@ class Mqtt():
         topic_to_publish: str,
         keepalive: int = 60,
         connection_check_period: int = 5000,
+
         on_message = None,
     ):
         self.statusLed = statusLed
@@ -29,7 +30,6 @@ class Mqtt():
         self.topics = topics
         self.topic_to_publish = topic_to_publish
         self.keepalive = keepalive
-
         self.connection_check_period = connection_check_period
 
         self.status = self.STAT_NOT_CONNECTED
