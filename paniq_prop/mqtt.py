@@ -46,11 +46,7 @@ class Mqtt():
         )
 
         self.inbox_topic = inbox_topic
-
-        if on_message:
-            self.on_message = on_message
-        else:
-            self.on_message = self._default_on_message
+        self.on_message = on_message
 
         self.init_auto_reconnect_timer()
         self.connect()
@@ -74,7 +70,7 @@ class Mqtt():
                     self.statusLed.blink()
 
                 self._client.connect()
-                self._client.set_callback(self.on_message)
+                self._client.set_callback(self._default_on_message)
 
                 for topic in self.topics:
                     logger.info(f"Subscribing to topic: {topic}")
@@ -122,6 +118,11 @@ class Mqtt():
             # Send PONG to Room server PING to measure connection speed
             if topic == self.inbox_topic and msg == "@PING":
                 self.publish("PONG")
+
+            # Run custom message handler
+            elif self.on_message:
+                self.on_message(topic, msg)
+
 
     def publish(self, msg: str):
         if self.isconnected():
