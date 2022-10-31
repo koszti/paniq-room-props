@@ -1,8 +1,8 @@
 # Make changes in this file to fit to your prop
 # Never commit secrets in this file
 
-# Prop name to identify your tap.
-# MQTT topic names to publish and receive messages will be deri this name
+# Prop name to identify your prop.
+# MQTT topic names will be derived from the prop name. Make it unique acress all props
 PROP_NAME = "Prop1"
 
 # Logfile name. Set an empty string to disable logging to file
@@ -35,7 +35,7 @@ MQTT_SERVER_KEEPALIVE = 60
 # Make the MQTT client ID unique across all the props
 MQTT_CLIENT_ID = "Wiznet W5100S-EVB-Pico ETH 1"
 
-# Common topics
+# Topic patters need be in sync with your room server settings
 MQTT_TOPIC_PREFIX = "Room/TestRoom"
 MQTT_TOPIC_PROP_INBOX = f"{MQTT_TOPIC_PREFIX}/Props/{PROP_NAME}/inbox"
 
@@ -51,3 +51,19 @@ MQTT_TOPICS_TO_SUBSCRIBE = [
 
 # Topics to send messages to. Make it unique across all the props
 MQTT_TOPIC_TO_PUBLISH = f"{MQTT_TOPIC_PREFIX}/Props/{PROP_NAME}/outbox"
+
+
+# Modify this function to do something specific on incoming MQTT messages
+def on_mqtt_message(topic: str, msg: str):
+    print(f"Custom Message received from {topic}: {msg}")
+
+
+# Modify this function to do something specific in the main loop
+# Typically checking sensors, setting pin values and sending MQTT messages
+from paniq_prop.mqtt import Mqtt
+def check_sensors(prop_runtime_secs: int, mqtt: Mqtt):
+    import time
+
+    # Example code to publish MQTT message every 5 seconds
+    if not prop_runtime_secs % 5:
+        mqtt.publish(f"DATA client_id={MQTT_CLIENT_ID} prop_runtime_secs={prop_runtime_secs} time={time.time()}")
