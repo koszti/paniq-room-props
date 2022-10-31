@@ -1,6 +1,10 @@
 # Make changes in this file to fit to your prop
 # Never commit secrets in this file
 
+# Prop name to identify your tap.
+# MQTT topic names to publish and receive messages will be deri this name
+PROP_NAME = "WifiProp1"
+
 # Status leds
 NETWORK_STATUS_PIN = 4
 MQTT_STATUS_PIN = 5
@@ -27,12 +31,16 @@ MQTT_SERVER_KEEPALIVE=60
 MQTT_CLIENT_ID="Wiznet W5100S-EVB-Pico ETH 1"
 
 # Topics to receive messages from
+MQTT_TOPIC_PREFIX="Room/TestRoom"
 MQTT_TOPICS_TO_SUBSCRIBE = [
-    "Room/TestRoom/Control/game:players",
-    "Room/TestRoom/Control/game:scenario",
-    "Room/TestRoom/Control/game:countdown:seconds",
-    "Room/TestRoom/Props/RandomNumber/inbox",
+    # Subscribe to topics with room server control messages
+    f"{MQTT_TOPIC_PREFIX}/Control/game:players",
+    f"{MQTT_TOPIC_PREFIX}/Control/game:scenario",
+    f"{MQTT_TOPIC_PREFIX}/Control/game:countdown:seconds",
+
+    # Subscribe to the topic with messages sent to this prop from other ones
+    f"{MQTT_TOPIC_PREFIX}/Props/{PROP_NAME}/inbox",
 ]
 
 # Topics to send messages to. Make it unique across all the props
-MQTT_TOPIC_TO_PUBLISH = "Room/TestRoom/Props/EthProp1/outbox"
+MQTT_TOPIC_TO_PUBLISH = f"{MQTT_TOPIC_PREFIX}/Props/{PROP_NAME}/outbox"
