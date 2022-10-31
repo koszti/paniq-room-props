@@ -64,3 +64,9 @@ or [without Thonny](https://mikeesto.medium.com/uploading-to-the-raspberry-pi-pi
 ```
 
 At the next restart the board will connect to the network and will start operating as an MQTT client.
+
+## In Action
+
+Props are compatible with [xcape.io](https://xcape.io/) Room Server.
+
+![Xcape.io](xcape-frontend.png)
