@@ -67,6 +67,6 @@ At the next restart the board will connect to the network and will start operati
 
 ## In Action
 
-Props are compatible with [xcape.io](https://xcape.io/) Room Server.
+paniq-room-props are compatible with [xcape.io](https://xcape.io/) Room Server.
 
 ![Xcape.io](xcape-frontend.png)
