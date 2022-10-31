@@ -5,12 +5,12 @@
 NETWORK_STATUS_PIN = 4
 MQTT_STATUS_PIN = 5
 
-# WIFI details for Pico W boards
+# WIFI details for Raspberry PI Pico W
 WIFI_CONNECTION_CHECK_PERIOD = 5000
 WIFI_SSID = "<secret>"
 WIFI_PASSWORD = "<secret>"
 
-# Ethernet details for 2040 boards with ethernet
+# Ethernet details for Wiznet W5100S-EVB-Pico
 # There is no DHCP client in the etnernet driver so you need to specify all interface details
 ETH_IP="192.168.1.20"
 ETH_SUBNET="255.255.255.0"
@@ -19,10 +19,12 @@ ETH_DNS="8.8.8.8"
 
 # MQTT broker credentials
 MQTT_CONNECTION_CHECK_PERIOD = 5000
+# IP of your MQTT broker
 MQTT_SERVER_HOST="<mqtt-broker-ip>"
 MQTT_SERVER_PORT=1883
 MQTT_SERVER_KEEPALIVE=60
-MQTT_CLIENT_ID="Raspberry PI Pico W/ETH 1"
+# Make the MQTT client ID unique across all the props
+MQTT_CLIENT_ID="Wiznet W5100S-EVB-Pico ETH 1"
 
 # Topics to receive messages from
 MQTT_TOPICS_TO_SUBSCRIBE = [
@@ -32,5 +34,5 @@ MQTT_TOPICS_TO_SUBSCRIBE = [
     "Room/TestRoom/Props/RandomNumber/inbox",
 ]
 
-# Topics to send messages to
-MQTT_TOPIC_TO_PUBLISH = "Room/TestRoom/Props/W-EthProp1/outbox"
+# Topics to send messages to. Make it unique across all the props
+MQTT_TOPIC_TO_PUBLISH = "Room/TestRoom/Props/EthProp1/outbox"
