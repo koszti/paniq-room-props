@@ -29,8 +29,8 @@ Network(
 )
 
 # Custom function to override default mqtt on_message function
-# def on_mqtt_message(b_topic: str, b_msg: str, retained: bool, dup: bool):
-#     print(f"Custom message receiver: {b_topic} - {b_msg}")
+def on_mqtt_message(topic: str, msg: str):
+    print(f"Custom Message received from {topic}: {msg}")
 
 mqtt = Mqtt(
     statusLed=statusLeds.mqtt,
@@ -46,7 +46,7 @@ mqtt = Mqtt(
 
     inbox_topic=config.MQTT_TOPIC_PROP_INBOX,
     # Set on_message if custom message receiver needed
-    # on_message=on_mqtt_message,
+    on_message=on_mqtt_message,
 )
 
 # Main loop
