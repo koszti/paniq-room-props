@@ -5,7 +5,11 @@ from machine import Pin
 from machine import SPI
 from machine import Timer
 
+from paniq_prop.logger import Logger
 from paniq_prop.status_leds import StatusLed
+
+logger = Logger(__name__)
+
 
 class EthernetNetworkAdapter():
     STAT_NOT_CONNECTED = 0
@@ -50,7 +54,7 @@ class EthernetNetworkAdapter():
     def connect(self):
         if not self.isconnected():
             if self.status != self.STAT_CONNECTING:
-                print("Connecting to Ethernet LAN...")
+                logger.info("Connecting to Ethernet LAN...")
                 self.status = self.STAT_CONNECTING
 
                 if self.statusLed:
@@ -58,13 +62,13 @@ class EthernetNetworkAdapter():
                 
                 self.nic.ifconfig((self.ip, self.subnet, self.gateway, self.dns))
         else:
-            print(f"Ethernet connected: {self.nic.ifconfig()}")
+            logger.info(f"Ethernet connected: {self.nic.ifconfig()}")
             self.status = self.STAT_CONNECTED
             if self.statusLed:
                 self.statusLed.on()
 
     def disconnect(self):
-        print("Disconnect ETH WIZNET5K not implemented")
+        logger.warning("Disconnect ETH WIZNET5K not implemented")
 
     def isconnected(self):
         return self.nic.isconnected()

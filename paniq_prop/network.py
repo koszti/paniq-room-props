@@ -1,8 +1,11 @@
 import network
 
+from paniq_prop.logger import Logger
 from paniq_prop.status_leds import StatusLed
 from paniq_prop.network_adapters.ethernet import EthernetNetworkAdapter
 from paniq_prop.network_adapters.wifi import WifiNetworkAdapter
+
+logger = Logger(__name__)
 
 
 class Network():
@@ -46,7 +49,7 @@ class Network():
                 if network.WLAN:
                     self.network_adapter_class = WifiNetworkAdapter
             except AttributeError:
-                print("Not found a supported network device.")
+                logger.critical("Not found a supported network device.")
         
     def init_network_adapter(self):
         if self.network_adapter_class == WifiNetworkAdapter:
@@ -65,17 +68,17 @@ class Network():
                 dns=self.eth_dns,
             )
         else:
-            print("Cannot initialise network without a supported network adapter.")
+            logger.critical("Cannot initialise network without a supported network adapter.")
 
     def connect(self):
         if self.network_adapter_class:
-            print(f"Connecting network using {self.network_adapter_class.__name__} adapter...")        
+            logger.info(f"Connecting network using {self.network_adapter_class.__name__} adapter...")
             if self.network_adapter:
                 self.network_adapter.connect()
             else:
-                print("Network adapter class not initialised")
+                logger.critical("Network adapter class not initialised")
         else:
-            print("Network adapter class not defined")
+            logger.critical("Network adapter class not defined")
     
     def disconnect(self):
         if self.network_adapter:

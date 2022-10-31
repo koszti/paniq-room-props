@@ -1,7 +1,11 @@
 import network
 from machine import Timer
 
+from paniq_prop.logger import Logger
 from paniq_prop.status_leds import StatusLed
+
+logger = Logger(__name__)
+
 
 class WifiNetworkAdapter():
     def __init__(
@@ -33,13 +37,13 @@ class WifiNetworkAdapter():
     def connect(self):
         if not self.wlan.isconnected():
             if self.wlan.status() != network.STAT_CONNECTING:
-                print("Connecting to wifi...")
+                logger.info("Connecting to wifi...")
                 if self.statusLed:
                     self.statusLed.blink()
 
                 self.wlan.connect(self.ssid, self.password)
         else:
-            print("Wifi connected")
+            logger.info("Wifi connected")
             if self.statusLed:
                 self.statusLed.on()
 

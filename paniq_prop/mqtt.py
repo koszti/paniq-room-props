@@ -1,7 +1,11 @@
 from machine import Timer
 from umqtt.simple import MQTTClient
 
+from paniq_prop.logger import Logger
 from paniq_prop.status_leds import StatusLed
+
+logger = Logger(__name__)
+
 
 class Mqtt():
     STAT_NOT_CONNECTED = 0
@@ -58,7 +62,7 @@ class Mqtt():
 
     def connect(self):
         if self.status == self.STAT_NOT_CONNECTED:
-            print(f"Connecting to mqtt broker at {self.server}:{self.port}...")
+            logger.info(f"Connecting to mqtt broker at {self.server}:{self.port}...")
             try:
                 self.status = self.STAT_CONNECTING
 
@@ -69,22 +73,22 @@ class Mqtt():
                 self._client.set_callback(self.on_message)
 
                 for topic in self.topics:
-                    print(f"Subscribing to topic: {topic}")
+                    logger.info(f"Subscribing to topic: {topic}")
                     self._client.subscribe(topic)
 
                 self.status = self.STAT_CONNECTED
                 self.publish(f"CONNECTED client_id={self.client_id}")
 
-                print("Mqtt connection established")
+                logger.info("Mqtt connection established")
                 if self.statusLed:
                     self.statusLed.on()
             except OSError as e:
-                print(f"Failed to connect to MQTT broker. {e}")
+                logger.error(f"Failed to connect to MQTT broker. {e}")
                 self.status = self.STAT_NOT_CONNECTED
                 if self.statusLed:
                     self.statusLed.off()
         elif self.status == self.STAT_CONNECTED:
-            print("Mqtt connected")
+            logger.info("Mqtt connected")
             if self.statusLed:
                 self.statusLed.on()
 
@@ -107,7 +111,7 @@ class Mqtt():
     def _default_on_message(self, b_topic: str, b_msg: str, retained: bool, dup: bool):
         topic = b_topic.decode('utf-8')
         msg = b_msg.decode('utf-8')
-        print(f"Message received from {topic} (retained: {retained}) (dup: {dup}): {msg}")
+        logger.info(f"Message received from {topic} (retained: {retained}) (dup: {dup}): {msg}")
 
     def publish(self, msg: str):
         if self.isconnected():

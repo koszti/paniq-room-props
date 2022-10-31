@@ -5,6 +5,10 @@
 # MQTT topic names to publish and receive messages will be deri this name
 PROP_NAME = "Prop1"
 
+# Logfile name. Set an empty string to disable logging to file
+# Log file max size is 1kb. Old logs are deleted automatically
+LOG_FILE = ""
+
 # Status leds
 NETWORK_STATUS_PIN = 4
 MQTT_STATUS_PIN = 5
