@@ -3,6 +3,10 @@ import time
 from machine import Pin
 from machine import Timer
 
+from paniq_prop.logger import Logger
+
+logger = Logger(__name__)
+
 
 class StatusLed():
     STAT_OFF = 0
@@ -62,3 +66,5 @@ class StatusLeds():
 
         self.network.off()
         self.mqtt.off()
+
+        logger.info("Status leds reset")
