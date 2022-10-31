@@ -43,6 +43,7 @@ mqtt = Mqtt(
     keepalive=config.MQTT_SERVER_KEEPALIVE,
     connection_check_period=config.MQTT_CONNECTION_CHECK_PERIOD,
 
+    inbox_topic=config.MQTT_TOPIC_PROP_INBOX,
     # Set on_message if custom message receiver needed
     # on_message=on_mqtt_message,
 )

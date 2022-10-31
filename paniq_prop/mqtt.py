@@ -24,6 +24,7 @@ class Mqtt():
         keepalive: int = 60,
         connection_check_period: int = 5000,
 
+        inbox_topic: str = None,
         on_message = None,
     ):
         self.statusLed = statusLed
@@ -43,6 +44,9 @@ class Mqtt():
             self.port,
             keepalive=self.keepalive,
         )
+
+        self.inbox_topic = inbox_topic
+
         if on_message:
             self.on_message = on_message
         else:
@@ -111,7 +115,13 @@ class Mqtt():
     def _default_on_message(self, b_topic: str, b_msg: str, retained: bool, dup: bool):
         topic = b_topic.decode('utf-8')
         msg = b_msg.decode('utf-8')
-        logger.info(f"Message received from {topic} (retained: {retained}) (dup: {dup}): {msg}")
+
+        if msg:
+            logger.info(f"Message received from {topic} (retained: {retained}) (dup: {dup}): {msg}")
+
+            # Send PONG to Room server PING to measure connection speed
+            if topic == self.inbox_topic and msg == "@PING":
+                self.publish("PONG")
 
     def publish(self, msg: str):
         if self.isconnected():
