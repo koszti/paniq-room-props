@@ -34,16 +34,18 @@ MQTT_SERVER_KEEPALIVE = 60
 # Make the MQTT client ID unique across all the props
 MQTT_CLIENT_ID = "Wiznet W5100S-EVB-Pico ETH 1"
 
-# Topics to receive messages from
+# Common topics
 MQTT_TOPIC_PREFIX = "Room/TestRoom"
+MQTT_TOPIC_PROP_INBOX = f"{MQTT_TOPIC_PREFIX}/Props/{PROP_NAME}/inbox"
+
+# Topics to receive messages from
 MQTT_TOPICS_TO_SUBSCRIBE = [
     # Subscribe to topics with room server control messages
     f"{MQTT_TOPIC_PREFIX}/Control/game:players",
     f"{MQTT_TOPIC_PREFIX}/Control/game:scenario",
-    f"{MQTT_TOPIC_PREFIX}/Control/game:countdown:seconds",
 
-    # Subscribe to the topic with messages sent to this prop from other ones
-    f"{MQTT_TOPIC_PREFIX}/Props/{PROP_NAME}/inbox",
+    # Subscribe to the prop's own inbox topic
+    MQTT_TOPIC_PROP_INBOX,
 ]
 
 # Topics to send messages to. Make it unique across all the props
