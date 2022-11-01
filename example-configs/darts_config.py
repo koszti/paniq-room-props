@@ -1,14 +1,15 @@
 #####
-# Example configuration for a prop on [Raspberry PI Pico W 1] board.
+# Example configuration for a prop on [Raspberry PI Pico W] board
+# connected to three disks (darts boards).
 #
 # Functions:
-#   on_mqtt_message: Doing nothing on incoming MQTT messages
+#   on_mqtt_message: Do nothing on incoming MQTT messages
 #   check_sensors  : Checking if three pins are all ON at the same time where
-#                    the three pins are wired to magnetice sensors in thee
-#                    dart boards.
+#                    the pins are wired to magnetice sensors in three darts
+#                    boards.
 #
 #                    If the three darts boards are positioned correctly then
-#                    the thee pins are all ON and send the
+#                    the three pins turn all ON and it sends the
 #                    "Darts at right positions" challenge completed message
 #                    (DONE) to the room server.
 #####
