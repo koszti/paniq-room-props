@@ -1,8 +1,9 @@
 #####
-# Example configuration for a prop on [Wiznet W5100S-EVB-Pico] board.
+# Example configuration for a prop on [Wiznet W5100S-EVB-Pico] board
+# connected to an UV Light.
 #
 # Functions:
-#   on_mqtt_message: Listening to incoming control messages from Room server
+#   on_mqtt_message: Listening incoming control messages from Room server
 #                    to turn the UV light on or off
 #   check_sensors  : Checking the UV light state periodically and sending its
 #                    value to the room server
