@@ -95,7 +95,11 @@ class Mqtt():
 
     def disconnect(self):
         if self._client:
-            self._client.disconnect()
+            try:
+                self._client.disconnect()
+            except OSError:
+                pass
+
             self.status = self.STAT_NOT_CONNECTED
 
             if self.statusLed:
@@ -106,7 +110,11 @@ class Mqtt():
     
     def check_msg(self):
         if self.isconnected():
-            self._client.check_msg()
+            try:
+                self._client.check_msg()
+            except OSError as e:
+                logger.error(f"Lost connection to MQTT server on checking message. {e}")
+                self.disconnect()
 
     def _default_on_message(self, b_topic: str, b_msg: str, retained: bool, dup: bool):
         topic = b_topic.decode('utf-8')
@@ -126,4 +134,8 @@ class Mqtt():
 
     def publish(self, msg: str):
         if self.isconnected():
-            self._client.publish(self.topic_to_publish, msg)
+            try:
+                self._client.publish(self.topic_to_publish, msg)
+            except OSError as e:
+                logger.error(f"Lost connection to MQTT server on publish. {e}")
+                self.disconnect()
