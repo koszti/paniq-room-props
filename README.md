@@ -19,9 +19,30 @@ Download the correct UF2 file from the list above and install it onto the board:
 * Push and hold the `BOOTSEL` button and plug your board into the USB port of other computer. Release the `BOOTSEL` button after your Pico is connected. It will mount as a Mass Storage Device called RPI-RP2.
 * Drag and drop the MicroPython UF2 file onto the RPI-RP2 volume. Your Pico will reboot. You are now running MicroPython.
 
-### 2. Edit config
+### 2. Transfer the project files to your board
 
-Open the `config.py` file in this repo and change at least the following properties to fit to your environment:
+Transfer the following files and directories to your device with [the Thonny IDE](https://www.freva.com/transfer-files-between-computer-and-raspberry-pi-pico/)
+or [without Thonny](https://mikeesto.medium.com/uploading-to-the-raspberry-pi-pico-without-thonny-53de1a10da30).
+
+```
+|- lib (dir)
+|- paniq_prop (dir)
+|- config.py
+`- main.py
+```
+
+**IMPORTANT**: At the next restart the board will connect to the network and will start operating as an MQTT client
+but **the prop is not expected to be working at this stage**. You need to provide unique configuration to each props
+by following the next step.
+
+### 3. Edit config
+
+The configuration is unique across all props. It details the board type, the network connections and the
+**unique behaviour what to do in the game**. You need to configure all prop differently according to what you want
+to use them in the game. You can find example configurations in the [example-configs](./example-configs) directory.
+
+Open the `config.py` **on the board by Thonny** and edit it directly. You will need change at least
+the following properties to fit to your environment:
 
 ```
 # MQTT topic names will be derived from the prop name. Make it unique acress all props
@@ -66,20 +87,6 @@ def check_sensors(prop_runtime_secs: int, mqtt: Mqtt):
 ```
 
 If required set other details in the `config.py`.
-
-### 3. Transfer the project files to your board
-
-Transfer the following files and directories to your device with [the Thonny IDE](https://www.freva.com/transfer-files-between-computer-and-raspberry-pi-pico/)
-or [without Thonny](https://mikeesto.medium.com/uploading-to-the-raspberry-pi-pico-without-thonny-53de1a10da30).
-
-```
-|- lib (dir)
-|- paniq_prop (dir)
-|- config.py
-`- main.py
-```
-
-At the next restart the board will connect to the network and will start operating as an MQTT client.
 
 ## In Action
 
