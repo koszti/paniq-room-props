@@ -1,5 +1,5 @@
 #####
-# Example configuration for a prop on [Raspberry PI Pico W 1] board
+# Example configuration for a prop on [Raspberry PI Pico W] board
 # connected to three disks (darts boards).
 #
 # Functions:
