@@ -90,4 +90,4 @@ def check_sensors(prop_runtime_secs: int, mqtt: Mqtt):
     # Send Challenge completed message (OVER) to Room server if all three pins are on
     # Three pins are on if darts positioned at the right positions
     if p1.value() == 0 and p2.value() == 0 and p3.value() == 0:
-        mqtt.publish(f"OVER Darts at right positions")
+        mqtt.publish(f"OVER Darts")
