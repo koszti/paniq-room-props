@@ -63,9 +63,13 @@ def main_loop():
         # Check sensor statuses, send custom MQTT messages depending on states
         config.check_sensors(prop_runtime_secs, mqtt)
 
-        # Toggle battery pin periodically if BATTERY_TOGGE_SECONDS in config is greater than 0 seconds
-        if config.BATTERY_TOGGLE_SECONDS > 0 and prop_runtime_secs % config.BATTERY_TOGGLE_SECONDS == 0:
-            Pin(config.BATTERY_PIN, Pin.OUT).toggle()
+        # Turn battery pin high periodically if BATTERY_TOGGE_SECONDS in config is greater than 0 seconds
+        if config.BATTERY_CHECK_PERIOD_SECONDS > 0 and prop_runtime_secs % config.BATTERY_CHECK_PERIOD_SECONDS == 0:
+            battery_pin = Pin(config.BATTERY_PIN, Pin.OUT)
+
+            battery_pin.high()
+            wait(config.BATTERY_CHECK_DURATION_SECONDS)
+            battery_pin.low()
 
         # Check and process incoming MQTT messages
         mqtt.check_msg()

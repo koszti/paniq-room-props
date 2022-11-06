@@ -25,8 +25,10 @@ NETWORK_STATUS_PIN = 4
 MQTT_STATUS_PIN = 5
 BATTERY_PIN = 1
 
-# Toggle battery pin every x seconds. 0 is disabled.
-BATTERY_TOGGLE_SECONDS = 10
+# Set battery pin high every X seconds for x seconds.
+# If BATTERY_CHECK_PERIOD_SECONDS is 0 then this feature is disabled.
+BATTERY_CHECK_PERIOD_SECONDS = 10
+BATTERY_CHECK_DURATION_SECONDS = 1
 
 # WIFI details for Raspberry PI Pico W
 WIFI_CONNECTION_CHECK_PERIOD = 5000
