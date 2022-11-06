@@ -1,6 +1,8 @@
 import config
 import time
 
+from machine import Pin
+
 from paniq_prop.mqtt import Mqtt
 from paniq_prop.status_leds import StatusLeds
 from paniq_prop.network import Network
@@ -60,6 +62,10 @@ def main_loop():
 
         # Check sensor statuses, send custom MQTT messages depending on states
         config.check_sensors(prop_runtime_secs, mqtt)
+
+        # Toggle battery pin periodically if battery pin is set
+        if config.BATTERY_TOGGLE_SECONDS > 0 and prop_runtime_secs % config.BATTERY_TOGGLE_SECONDS == 0:
+            Pin(config.BATTERY_PIN, Pin.OUT).toggle()
 
         # Check and process incoming MQTT messages
         mqtt.check_msg()

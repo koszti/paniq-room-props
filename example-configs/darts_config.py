@@ -28,6 +28,10 @@ LOG_FILE = ""
 # Status leds
 NETWORK_STATUS_PIN = 4
 MQTT_STATUS_PIN = 5
+BATTERY_PIN = 1
+
+# Toggle battery pin every x seconds
+BATTERY_TOGGLE_SECONDS = 10
 
 # WIFI details for Raspberry PI Pico W
 WIFI_CONNECTION_CHECK_PERIOD = 5000
