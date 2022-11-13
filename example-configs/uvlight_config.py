@@ -31,10 +31,12 @@ WIFI_PASSWORD = "<secret>"
 
 # Ethernet details for Wiznet W5100S-EVB-Pico
 ETH_CONNECTION_CHECK_PERIOD = 5000
-# There is no DHCP client in the etnernet driver so you need to specify all interface details
+ETH_DHCP = False
+
+# If not using DHCP then specify all interface details
 ETH_IP = "192.168.1.20"
 ETH_SUBNET = "255.255.255.0"
-ETH_GATEWAY = "192.168.0.1"
+ETH_GATEWAY = "192.168.1.1"
 ETH_DNS = "8.8.8.8"
 
 # MQTT broker credentials

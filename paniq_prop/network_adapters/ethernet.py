@@ -19,6 +19,7 @@ class EthernetNetworkAdapter():
     def __init__(
         self,
         statusLed: StatusLed,
+        dhcp: bool,
         ip: str,
         subnet: str,
         gateway: str,
@@ -26,6 +27,7 @@ class EthernetNetworkAdapter():
         connection_check_period: int = 5000,
     ):
         self.statusLed = statusLed
+        self.dhcp = dhcp
         self.ip = ip
         self.subnet = subnet
         self.gateway = gateway
@@ -60,7 +62,12 @@ class EthernetNetworkAdapter():
                 if self.statusLed:
                     self.statusLed.blink()
                 
-                self.nic.ifconfig((self.ip, self.subnet, self.gateway, self.dns))
+                if self.dhcp:
+                    logger.info("Using DHCP client...")
+                    self.nic.active(True)
+                else:
+                    logger.info(f"Using fixed IPs: {self.ip} {self.subnet} {self.gateway} {self.dns} ...")
+                    self.nic.ifconfig((self.ip, self.subnet, self.gateway, self.dns))
         else:
             logger.info(f"Ethernet connected: {self.nic.ifconfig()}")
             self.status = self.STAT_CONNECTED
@@ -72,3 +79,4 @@ class EthernetNetworkAdapter():
 
     def isconnected(self):
         return self.nic.isconnected()
+
