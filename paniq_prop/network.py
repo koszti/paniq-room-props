@@ -17,6 +17,7 @@ class Network():
         wifi_password: str,
         wifi_connection_check_period: int,
 
+        eth_dhcp: bool,
         eth_ip: str,
         eth_subnet: str,
         eth_gateway: str,
@@ -29,6 +30,7 @@ class Network():
         self.wifi_password = wifi_password
         self.wifi_connection_check_period = wifi_connection_check_period
 
+        self.eth_dhcp = eth_dhcp
         self.eth_ip = eth_ip
         self.eth_subnet = eth_subnet
         self.eth_gateway = eth_gateway
@@ -64,6 +66,7 @@ class Network():
         elif self.network_adapter_class == EthernetNetworkAdapter:
             self.network_adapter = EthernetNetworkAdapter(
                 statusLed=self.statusLed,
+                dhcp=self.eth_dhcp,
                 ip=self.eth_ip,
                 subnet=self.eth_subnet,
                 gateway=self.eth_gateway,
@@ -90,3 +93,4 @@ class Network():
     def isconnected(self):
         if self.network_adapter:
             self.network_adapter.isconnected()
+

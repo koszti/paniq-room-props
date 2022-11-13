@@ -21,6 +21,7 @@ Network(
     wifi_connection_check_period=config.WIFI_CONNECTION_CHECK_PERIOD,
 
     # For Ethernet adapter
+    eth_dhcp=config.ETH_DHCP,
     eth_ip=config.ETH_IP,
     eth_subnet=config.ETH_SUBNET,
     eth_gateway=config.ETH_GATEWAY,
