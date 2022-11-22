@@ -75,33 +75,32 @@ def on_mqtt_message(topic: str, msg: str):
 # Modify this function to do something specific in the main loop
 # Typically checking sensors, setting pin values and sending MQTT messages
 from paniq_prop.mqtt import Mqtt
-def check_sensors(prop_runtime_secs: int, mqtt: Mqtt, doorsensor_previous: int):
+def check_sensors(prop_runtime_secs: int, mqtt: Mqtt, state: dict) -> dict:
     """Check if three pins are all ON at the same time"""
     import time
+
+    if not state:
+        state = {
+            "doorsensor_pin_value": DOORSENSOR_PIN.value(),
+        }
 
     """Send The Door Sensor State"""
     # Send Challenge completed message (OVER) to Room server if door sensor pin on
     # Pin is on if Bar Door is open
-    if DOORSENSOR_PIN.value() == 0:
-        mqtt.publish(f"OVER Bar Door")
+    if DOORSENSOR_PIN.value() != state["doorsensor_pin_value"]:
+        state["doorsensor_pin_value"] = DOORSENSOR_PIN.value()
 
-#    if DOORSENSOR_PIN.value() != DOORSENSOR_PREVIOUS and DOORSENSOR_PIN.value() == 1:
-#        mqtt.publish(f"REQ 3_TVController -> tvcontroller:stop")
-#        DOORSENSOR_PREVIOUS = DOORSENSOR_PIN.value()
-        
-    if DOORSENSOR_PIN.value() != doorsensor_previous:
-        print("Valtozas")    
-        doorsensor_previous = DOORSENSOR_PIN.value()
-        
+        if DOORSENSOR_PIN.value() == 0:
+            mqtt.publish(f"REQU 3_TVController -> tvcontroller:start")
+
         if DOORSENSOR_PIN.value() == 1:
+            mqtt.publish(f"OVER Bar Door")
             mqtt.publish(f"REQU 3_TVController -> tvcontroller:stop")
-    
     
     """Send UV ligth status periodically"""
     # Check the value of the UV light periodically and send it to the Room server
     if not prop_runtime_secs % 1:
-
         mqtt.publish(f"DATA uvlight_state={UVLIGHT_PIN.value()}")
 
 
-    return doorsensor_previous
+    return state
