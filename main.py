@@ -54,13 +54,14 @@ def main_loop():
     """
     main_loop_period_counter = 0
     MAIN_PERIOD_SLEEP_SECONDS = 0.5
-
+    doorsensor_previous = config.DOORSENSOR_PIN.value()
+    
     while True:
         # Calculate how long the prop is running
         prop_runtime_secs = main_loop_period_counter * MAIN_PERIOD_SLEEP_SECONDS
 
         # Check sensor statuses, send custom MQTT messages depending on states
-        config.check_sensors(prop_runtime_secs, mqtt)
+        doorsensor_previous = config.check_sensors(prop_runtime_secs, mqtt, doorsensor_previous)
 
         # Check and process incoming MQTT messages
         mqtt.check_msg()
