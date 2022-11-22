@@ -20,9 +20,8 @@ DOORSENSOR_PIN = Pin(22, Pin.IN, Pin.PULL_UP)
 
 # WIFI details for Raspberry PI Pico W
 WIFI_CONNECTION_CHECK_PERIOD = 5000
-WIFI_SSID = "Telekom-MuV5Bu"
-WIFI_PASSWORD = "tdc713ummfn7"
-
+WIFI_SSID = "<secret>"
+WIFI_PASSWORD = "<secret>"
 
 # Ethernet details for Wiznet W5100S-EVB-Pico
 ETH_CONNECTION_CHECK_PERIOD = 5000
