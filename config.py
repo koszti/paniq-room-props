@@ -56,16 +56,19 @@ MQTT_TOPIC_TO_PUBLISH = f"{MQTT_TOPIC_PREFIX}/Props/{PROP_NAME}/outbox"
 
 
 # Modify this function to do something specific on incoming MQTT messages
-def on_mqtt_message(topic: str, msg: str):
+def on_mqtt_message(topic: str, msg: str, state: dict) -> dict:
     print(f"Custom Message received from {topic}: {msg}")
+    return state
 
 
 # Modify this function to do something specific in the main loop
 # Typically checking sensors, setting pin values and sending MQTT messages
 from paniq_prop.mqtt import Mqtt
-def check_sensors(prop_runtime_secs: int, mqtt: Mqtt):
+def check_sensors(prop_runtime_secs: int, mqtt: Mqtt, state: dict) -> dict:
     import time
 
     # Example code to publish MQTT message every 5 seconds
     if not prop_runtime_secs % 5:
         mqtt.publish(f"DATA client_id={MQTT_CLIENT_ID} prop_runtime_secs={prop_runtime_secs} time={time.time()}")
+
+    return state
