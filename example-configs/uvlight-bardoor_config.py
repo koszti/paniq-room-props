@@ -91,11 +91,11 @@ def check_sensors(prop_runtime_secs: int, mqtt: Mqtt, state: dict) -> dict:
         state["doorsensor_pin_value"] = DOORSENSOR_PIN.value()
 
         if DOORSENSOR_PIN.value() == 0:
-            mqtt.publish(f"REQU 3_TVController -> tvcontroller:start")
+            mqtt.publish(f"OVER Bar Door")
+            mqtt.publish(f"tvcontroller:start", topic=f"{MQTT_TOPIC_PREFIX}/Props/3_TVController/inbox")
 
         if DOORSENSOR_PIN.value() == 1:
-            mqtt.publish(f"OVER Bar Door")
-            mqtt.publish(f"REQU 3_TVController -> tvcontroller:stop")
+            mqtt.publish(f"tvcontroller:stop", topic=f"{MQTT_TOPIC_PREFIX}/Props/3_TVController/inbox")
     
     """Send UV ligth status periodically"""
     # Check the value of the UV light periodically and send it to the Room server
