@@ -132,10 +132,13 @@ class Mqtt():
                 self.on_message(topic, msg)
 
 
-    def publish(self, msg: str):
+    def publish(self, msg: str, topic: str = None):
+        if not topic:
+            topic = self.topic_to_publish
+
         if self.isconnected():
             try:
-                self._client.publish(self.topic_to_publish, msg)
+                self._client.publish(topic, msg)
             except OSError as e:
                 logger.error(f"Lost connection to MQTT server on publish. {e}")
                 self.disconnect()
