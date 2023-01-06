@@ -28,6 +28,11 @@ ETH_SUBNET = "255.255.255.0"
 ETH_GATEWAY = "192.168.1.1"
 ETH_DNS = "8.8.8.8"
 
+# OTA
+OTA_HOST="http://192.168.1.106:8080"
+OTA_PROJECT_NAME=PROP_NAME.lower().split('_', 1)[-1]
+OTA_FILENAMES = ['config.py', 'main.py']
+
 # MQTT broker credentials
 MQTT_CONNECTION_CHECK_PERIOD = 5000
 # IP of your MQTT broker

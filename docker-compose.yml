@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  httpd:
+    image: httpd:2.4
+    container_name: paniq_ota_server
+    ports:
+      - "8080:80"
+    volumes:
+      - ./dev-builds:/usr/local/apache2/htdocs
